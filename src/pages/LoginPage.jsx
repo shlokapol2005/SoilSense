@@ -1,19 +1,22 @@
-
+// src/pages/LoginPage.jsx
 import React, { useState } from "react";
-import "./LoginPage.css"; 
+import "./LoginPage.css";
 
-const LoginPage = () => {
- 
+const LoginPage = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // You can add real authentication logic here
     console.log("Email:", email);
     console.log("Password:", password);
     console.log("Remember Me:", remember);
-    alert("Login Submitted!");
+
+    // After successful login, redirect to Dashboard
+    setIsLoggedIn(true);
   };
 
   return (
@@ -30,7 +33,9 @@ const LoginPage = () => {
         <div className="features">
           <div className="feature-card">
             <h3>Soil Analysis</h3>
-            <p>Upload test reports or enter soil parameters for instant analysis</p>
+            <p>
+              Upload test reports or enter soil parameters for instant analysis
+            </p>
           </div>
           <div className="feature-card">
             <h3>Smart Recommendations</h3>

@@ -1,0 +1,255 @@
+/* Navbar container */
+.navbar {
+  background-color: white;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  font-family: sans-serif;
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  height: 4rem;
+  align-items: center;
+}
+
+/* Logo */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo-icon {
+  background: linear-gradient(to right, #22c55e, #047857);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: white;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #111827;
+}
+
+/* Desktop nav items */
+.nav-items-desktop {
+  display: none;
+}
+
+.nav-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #4b5563;
+}
+
+.nav-btn:hover {
+  color: #16a34a;
+  background-color: #f9fafb;
+}
+
+.nav-btn.active {
+  background-color: #d1fae5;
+  color: #15803d;
+  border-bottom: 2px solid #16a34a;
+}
+
+/* User profile desktop */
+.user-profile-desktop {
+  display: none;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.user-info {
+  text-align: right;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #111827;
+}
+
+.user-role {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.user-icon {
+  background: linear-gradient(to right, #3b82f6, #8b5cf6);
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: white;
+}
+
+/* Logout button desktop */
+.logout-btn-desktop {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  color: #4b5563;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.logout-btn-desktop:hover {
+  color: #dc2626;
+}
+
+.logout-btn-desktop svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Mobile menu button */
+.mobile-menu-btn {
+  display: block;
+}
+
+.mobile-menu-btn button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #4b5563;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  transition: color 0.2s ease;
+}
+
+.mobile-menu-btn button:hover {
+  color: #16a34a;
+}
+
+.mobile-menu-btn svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Mobile nav menu */
+.mobile-nav {
+  border-top: 1px solid #e5e7eb;
+  padding: 0.5rem 0;
+}
+
+.mobile-nav-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mobile-nav-btn {
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #4b5563;
+  transition: all 0.2s ease;
+}
+
+.mobile-nav-btn:hover {
+  color: #16a34a;
+  background-color: #f9fafb;
+}
+
+.mobile-nav-btn.active {
+  background-color: #d1fae5;
+  color: #15803d;
+}
+
+/* Mobile user section */
+.mobile-user-section {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.mobile-user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+}
+
+.mobile-user-icon {
+  background: linear-gradient(to right, #3b82f6, #8b5cf6);
+  padding: 0.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-user-icon svg {
+  width: 1rem;
+  height: 1rem;
+  color: white;
+}
+
+.mobile-logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  color: #4b5563;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.mobile-logout-btn:hover {
+  color: #dc2626;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .nav-items-desktop {
+    display: flex;
+    gap: 0.25rem;
+  }
+  .user-profile-desktop {
+    display: flex;
+  }
+  .logout-btn-desktop {
+    display: flex;
+  }
+  .mobile-menu-btn {
+    display: none;
+  }
+  .mobile-nav {
+    display: none;
+  }
+}
