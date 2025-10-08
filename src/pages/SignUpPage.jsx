@@ -1,22 +1,31 @@
-// src/pages/LoginPage.jsx
-import React, { useState } from "react";
-import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 
-const LoginPage = ({ setIsLoggedIn, switchToSignUp }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [remember, setRemember] = useState(false);
+// src/pages/SignUpPage.jsx
+import React, { useState } from "react";
+import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
+
+const SignUpPage = ({ setIsLoggedIn, switchToLogin }) => {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Add your login logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log("Remember:", remember);
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
 
-    // On successful login
+    console.log("Sign Up Data:", formData);
     setIsLoggedIn(true);
   };
 
@@ -50,25 +59,39 @@ const LoginPage = ({ setIsLoggedIn, switchToSignUp }) => {
         </div>
       </div>
 
-      {/* Right Login Form */}
+      {/* Right Sign Up Form */}
       <div className="auth-right">
         <div className="form-box">
-          <h2>Welcome Back</h2>
+          <h2>Create Account</h2>
           <p>
-            Don't have an account?{" "}
-            <button onClick={switchToSignUp} className="switch-btn">
-              Sign up
+            Already have an account?{" "}
+            <button onClick={switchToLogin} className="switch-btn">
+              Log in
             </button>
           </p>
 
           <form onSubmit={handleSubmit}>
+            <label>Full Name</label>
+            <div className="input-wrapper">
+              <User className="input-icon" />
+              <input
+                type="text"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleInputChange}
+                placeholder="John Doe"
+                required
+              />
+            </div>
+
             <label>Email</label>
             <div className="input-wrapper">
               <Mail className="input-icon" />
               <input
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
                 placeholder="your@email.com"
                 required
               />
@@ -79,8 +102,9 @@ const LoginPage = ({ setIsLoggedIn, switchToSignUp }) => {
               <Lock className="input-icon" />
               <input
                 type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
                 placeholder="••••••••"
                 required
               />
@@ -93,20 +117,21 @@ const LoginPage = ({ setIsLoggedIn, switchToSignUp }) => {
               </button>
             </div>
 
-            <div className="options">
-              <label>
-                <input
-                  type="checkbox"
-                  checked={remember}
-                  onChange={(e) => setRemember(e.target.checked)}
-                />
-                Remember me
-              </label>
-              <a href="/forgot-password">Forgot password?</a>
+            <label>Confirm Password</label>
+            <div className="input-wrapper">
+              <Lock className="input-icon" />
+              <input
+                type={showPassword ? "text" : "password"}
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                placeholder="••••••••"
+                required
+              />
             </div>
 
             <button type="submit" className="auth-btn">
-              Sign In
+              Create Account
             </button>
           </form>
 
@@ -121,4 +146,4 @@ const LoginPage = ({ setIsLoggedIn, switchToSignUp }) => {
   );
 };
 
-export default LoginPage;
+export default SignUpPage;

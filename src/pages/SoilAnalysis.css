@@ -1,7 +1,7 @@
 /* Background and container */
 .soil-analysis-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f9fafb 0%, #f0fdf4 50%, #eff6ff 100%);
+  background: linear-gradient(135deg, #f9fafb 0%, #dcfde6 50%, #eff6ff 100%);
   padding: 3rem 1rem;
   font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: #111827;
@@ -74,6 +74,11 @@
   background: transparent;
 }
 
+.tab-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
 .tab-active {
   background: #059669;
   color: #fff;
@@ -132,6 +137,10 @@
   height: 1.5rem;
 }
 
+.recommendations-icon {
+  color: #ea580c;
+}
+
 /* Upload Area */
 .upload-area {
   border: 2px dashed #d1d5db;
@@ -150,7 +159,7 @@
   color: #9ca3af;
   width: 4rem;
   height: 4rem;
-  margin-bottom: 1rem;
+  margin: 0 auto 1rem;
 }
 
 .upload-title {
@@ -189,6 +198,49 @@
   height: 1.25rem;
 }
 
+.file-input {
+  display: none;
+}
+
+/* Upload Success */
+.upload-success-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.success-message {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+.success-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.success-icon {
+  height: 1.5rem;
+  width: 1.5rem;
+  color: #059669;
+  flex-shrink: 0;
+}
+
+.success-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #064e3b;
+  margin: 0;
+}
+
+.success-filename {
+  color: #047857;
+  margin: 0;
+}
+
 /* Manual Form */
 .manual-form {
   display: flex;
@@ -225,6 +277,11 @@
   font-weight: 400;
 }
 
+.required {
+  color: #dc2626;
+  font-weight: 600;
+}
+
 .field-input {
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
@@ -232,6 +289,7 @@
   font-size: 1rem;
   color: #111827;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background: white;
 }
 
 .field-input:focus {
@@ -270,12 +328,44 @@
   gap: 1.5rem;
 }
 
+.results-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Input Summary */
+.input-summary {
+  background: #f0fdf4;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #bbf7d0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary-label {
+  font-weight: 500;
+  color: #064e3b;
+}
+
+.summary-value {
+  font-weight: 600;
+  color: #047857;
+}
+
 /* Soil Type Box */
 .soil-type {
-  background: #f0fdf4;
+  background: #dcfce7;
   padding: 1rem 1.25rem;
   border-radius: 0.5rem;
-  margin-bottom: 1.5rem;
 }
 
 .soil-type-label {
@@ -296,31 +386,40 @@
 .parameters-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.15rem;
+  gap: 1rem;
 }
 
 .parameter-item {
   background: white;
   border-radius: 0.5rem;
   text-align: center;
-  padding: 0.75rem 0;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .parameter-label {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
   color: #374151;
 }
 
-/* Colored parameter boxes */
-.parameter-ph {
-  background: #eff6ff;
+.parameter-value {
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin: 0;
 }
 
+.parameter-unit {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+/* Colored parameter boxes */
 .parameter-nitrogen {
   background: #f3e8ff;
 }
@@ -333,17 +432,11 @@
   background: #fef2f2;
 }
 
-/* Parameter values colored */
-.parameter-value {
-  font-weight: 700;
-  font-size: 1.25rem;
-  margin: 0;
+.parameter-ph {
+  background: #eff6ff;
 }
 
-.parameter-ph .parameter-label {
-  color: #1d4ed8;
-}
-
+/* Parameter labels colored */
 .parameter-nitrogen .parameter-label {
   color: #7c3aed;
 }
@@ -356,10 +449,11 @@
   color: #dc2626;
 }
 
-.parameter-ph .parameter-value {
-  color: #1e40af;
+.parameter-ph .parameter-label {
+  color: #1d4ed8;
 }
 
+/* Parameter values colored */
 .parameter-nitrogen .parameter-value {
   color: #6d28d9;
 }
@@ -370,6 +464,45 @@
 
 .parameter-potassium .parameter-value {
   color: #b91c1c;
+}
+
+.parameter-ph .parameter-value {
+  color: #1e40af;
+}
+
+/* Additional Parameters */
+.additional-params {
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.param-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+}
+
+.param-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #0ea5e9;
+  flex-shrink: 0;
+}
+
+.param-label {
+  flex: 1;
+  font-weight: 500;
+  color: #374151;
+}
+
+.param-value {
+  font-weight: 600;
+  color: #111827;
 }
 
 /* Recommendations Card */
@@ -389,12 +522,6 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-}
-
-.recommendations-icon {
-  color: #ea580c;
-  width: 1.5rem;
-  height: 1.5rem;
 }
 
 .recommendations-list {
@@ -419,12 +546,14 @@
   background-color: #ea580c;
   border-radius: 50%;
   margin-top: 0.5rem;
+  flex-shrink: 0;
 }
 
 .recommendation-text {
   margin: 0;
   font-weight: 500;
   color: #9a3412;
+  line-height: 1.5;
 }
 
 /* Detailed button */
@@ -490,6 +619,13 @@
   color: #6b7280;
 }
 
+.no-analysis-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .no-analysis-icon {
   color: #d1d5db;
   width: 4rem;
@@ -501,7 +637,7 @@
   font-weight: 600;
   font-size: 1.125rem;
   color: #111827;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .no-analysis-description {
@@ -524,6 +660,10 @@
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto 0.75rem auto;
+}
+
+.loading-text {
+  color: #4b5563;
 }
 
 @keyframes spin {
@@ -560,4 +700,244 @@
   .parameters-grid {
     grid-template-columns: 1fr 1fr;
   }
+
+  .upload-area {
+    padding: 2rem 1rem;
+  }
+
+  .upload-card,
+  .manual-card,
+  .results-card,
+  .recommendations-card,
+  .download-card {
+    padding: 1.5rem;
+  }
 }
+
+@media (max-width: 480px) {
+  .soil-analysis-container {
+    padding: 2rem 0.5rem;
+  }
+
+  .header-title {
+    font-size: 1.5rem;
+  }
+
+  .tab-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .parameters-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .parameter-value {
+    font-size: 1.25rem;
+  }
+}
+/* ---------------------------
+   Addendum: finishing styles
+   (append this to the end of SoilAnalysis.css)
+   --------------------------- */
+
+/* Input section wrapper (left column) */
+.input-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Ensure upload-card and manual-card stretch nicely */
+.upload-card,
+.manual-card {
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Upload success - center content and keep spacing consistent */
+.upload-success-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.success-message {
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+/* Results card tweaks */
+.results-card {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1.5rem;
+}
+
+/* Make sure summary and soil type are spaced and full width */
+.input-summary,
+.soil-type {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Parameter grid responsiveness */
+.parameters-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 480px) {
+  .parameters-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Recommendation item - ensure readable wrap and gap */
+.recommendation-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  background: #fff7ed;
+  padding: 0.75rem 0.9rem;
+  border-radius: 0.5rem;
+  word-break: break-word;
+}
+
+/* Download button full width and consistent height */
+.download-card .download-button,
+.download-button {
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* detailed recommendations CTA */
+.detailed-recommendations-button {
+  margin-top: 0.5rem;
+}
+
+/* Loading container centering */
+.loading-container {
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Small visual polish for icons/text */
+.header-icon,
+.tab-icon,
+.button-icon,
+.param-icon,
+.success-icon,
+.results-icon,
+.recommendations-icon,
+.no-analysis-icon {
+  flex-shrink: 0;
+}
+
+/* Ensure the main wrapper never causes vertical overflow due to margins */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Slightly increase spacing on very large screens */
+@media (min-width: 1400px) {
+  .soil-analysis-wrapper {
+    max-width: 1400px;
+  }
+
+  .form-grid {
+    gap: 1.75rem;
+  }
+
+  .content-grid {
+    gap: 2.5rem;
+  }
+}
+
+/* Accessibility: focus states for interactive elements */
+.tab-button:focus,
+.upload-button:focus,
+.analyze-button:focus,
+.download-button:focus,
+.detailed-recommendations-button:focus,
+.field-input:focus {
+  outline: 3px solid rgba(5,150,105,0.15);
+  outline-offset: 2px;
+}
+
+/* Fix for any accidental horizontal overflow */
+* {
+  box-sizing: border-box;
+}
+.soil-tips {
+  background: #f5f9f5;
+  border: 1px solid #dce5dc;
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  margin-top: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.soil-tips h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: #2e7d32;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.soil-tips ul {
+  list-style-type: disc;
+  margin-left: 1.2rem;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.soil-tips li {
+  margin-bottom: 0.4rem;
+}
+/* Fix: ensure results text contrasts properly */
+.results-card,
+.results-card * {
+  opacity: 1;                 /* cancel any inherited opacity */
+}
+
+.summary-label { color: #064e3b; }     /* already set earlier; keep */
+.summary-value { color: #065f46; }     /* stronger green for contrast */
+
+/* Make the results body text and parameter values clearly visible */
+.results-card { color: #111827; }
+.results-card .parameter-label { color: #374151; }
+.results-card .parameter-value { color: #111827; }
+
+/* Extra safety: if any global low-opacity hit headings inside results */
+.results-title { color: #111827; }
+
+/* If a parent applied transparency to the whole card, override it here */
+.results-card { background-color: #ffffff; } /* stays white as designed */
+
+/* For the light green “input-summary” box, keep vivid text */
+.input-summary { background: #f0fdf4; border-color: #bbf7d0; }
+.input-summary .summary-label { color: #064e3b; }
+.input-summary .summary-value { color: #065f46; }
+
+/* Ensure parameter tiles have solid text colors over pastel backgrounds */
+.parameter-item .parameter-value { color: #111827; }
+.parameter-nitrogen .parameter-value { color: #6d28d9; }
+.parameter-phosphorus .parameter-value { color: #c2410c; }
+.parameter-potassium .parameter-value { color: #b91c1c; }
+.parameter-ph .parameter-value { color: #1e40af; }

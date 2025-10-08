@@ -84,7 +84,7 @@ const Weather = () => {
       <div className="weather-wrapper">
         {/* Header */}
         <div className="weather-header">
-          <h1 className="weather-title">
+          <h1 className="weather-title">  
             <Cloud className="weather-header-icon" />
             Weather Insights
           </h1>

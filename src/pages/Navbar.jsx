@@ -14,6 +14,15 @@ const Navbar = ({ activeTab, setActiveTab }) => {
     "History",
   ];
 
+  // Logout: clear session and redirect to login
+  const handleLogout = () => {
+    try {
+      localStorage.removeItem("authToken");
+      sessionStorage.clear();
+    } catch {}
+    window.location.href = "/login";
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -51,7 +60,7 @@ const Navbar = ({ activeTab, setActiveTab }) => {
             </div>
           </div>
 
-          <button className="logout-btn-desktop">
+          <button className="logout-btn-desktop" onClick={handleLogout}>
             <LogOut />
             <span>Logout</span>
           </button>
@@ -76,9 +85,7 @@ const Navbar = ({ activeTab, setActiveTab }) => {
                   setActiveTab(item);
                   setIsMenuOpen(false);
                 }}
-                className={`mobile-nav-btn ${
-                  activeTab === item ? "active" : ""
-                }`}
+                className={`mobile-nav-btn ${activeTab === item ? "active" : ""}`}
               >
                 {item}
               </button>
@@ -94,7 +101,7 @@ const Navbar = ({ activeTab, setActiveTab }) => {
                   <p className="user-role">Farmer</p>
                 </div>
               </div>
-              <button className="mobile-logout-btn">
+              <button className="mobile-logout-btn" onClick={handleLogout}>
                 <LogOut />
                 <span>Logout</span>
               </button>

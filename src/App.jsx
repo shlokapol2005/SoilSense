@@ -8,22 +8,26 @@ import WeatherPage from "./pages/WeatherPage";
 import CalculatorPage from "./pages/CalculatorPage";
 import HistoryPage from "./pages/HistoryPage";
 import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
 
 // CSS imports
 import "./pages/Navbar.css";
 import "./pages/Dashboard.css";
 import "./pages/LoginPage.css";
+import "./pages/AuthPage.css";
+
+
 
 function App() {
   const [activeTab, setActiveTab] = useState("Dashboard");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
   return (
     <div>
       {isLoggedIn ? (
         <>
           <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
-
           <main>
             {activeTab === "Dashboard" && <Dashboard />}
             {activeTab === "Soil Analysis" && <SoilAnalysis />}
@@ -33,8 +37,16 @@ function App() {
             {activeTab === "History" && <HistoryPage />}
           </main>
         </>
+      ) : isLogin ? (
+        <LoginPage
+          setIsLoggedIn={setIsLoggedIn}
+          switchToSignUp={() => setIsLogin(false)}
+        />
       ) : (
-        <LoginPage setIsLoggedIn={setIsLoggedIn} />
+        <SignUpPage
+          setIsLoggedIn={setIsLoggedIn}
+          switchToLogin={() => setIsLogin(true)}
+        />
       )}
     </div>
   );

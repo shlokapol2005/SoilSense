@@ -1,0 +1,132 @@
+
+/* Page */
+.history-page{
+  min-height:100vh;
+  background:linear-gradient(135deg,#f9fafb 0%,#eef2ff 50%,#f3e8ff 100%);
+  padding:32px 0;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
+}
+.history-container{max-width:1200px;margin:0 auto;padding:0 16px}
+
+/* Header */
+.history-header{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:24px}
+.history-title{display:inline-flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;color:#111827;margin:0 0 8px 0}
+.history-title-icon{width:40px;height:40px;margin-right:12px;color:#4f46e5}
+.history-subtitle{font-size:18px;color:#4b5563;max-width:720px;margin:0 auto}
+
+/* Card base */
+.card{background:#fff;border:1px solid #f3f4f6;border-radius:14px;box-shadow:0 10px 15px -3px rgba(0,0,0,.1);padding:24px}
+
+/* Filters */
+.filters-card{margin-bottom:24px}
+.filters-row{display:flex;flex-direction:column;gap:16px}
+@media(min-width:768px){.filters-row{flex-direction:row;align-items:center;justify-content:space-between}}
+.filters-left{display:flex;align-items:center;gap:12px}
+.search-wrap{position:relative}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:#9ca3af}
+.search-input{padding:10px 12px 10px 36px;border:1px solid #d1d5db;border-radius:10px;font-size:14px;outline:none}
+.period-select{padding:10px 12px;border:1px solid #d1d5db;border-radius:10px;font-size:14px;outline:none}
+.export-btn{
+  display:flex;align-items:center;gap:8px;background:linear-gradient(90deg,#6366f1,#7c3aed);
+  color:#fff;border:none;border-radius:10px;padding:10px 16px;cursor:pointer;transition:filter .2s
+}
+.export-btn:hover{filter:brightness(.97)}
+.export-icon{width:20px;height:20px}
+
+/* Tabs */
+.tabs-wrap{display:flex;justify-content:center;margin-bottom:24px}
+.tabs-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;box-shadow:0 10px 15px -3px rgba(0,0,0,.1);padding:6px;display:flex;gap:6px}
+.tab-btn{
+  display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:8px;border:none;
+  background:transparent;color:#4b5563;font-weight:600;cursor:pointer;transition:background .2s,color .2s,box-shadow .2s
+}
+.tab-btn .tab-icon{width:20px;height:20px}
+.tab-btn.active{background:#4f46e5;color:#fff;box-shadow:0 8px 14px rgba(79,70,229,.25)}
+
+/* Sections */
+.section{display:flex;flex-direction:column;gap:16px}
+.section-title{font-size:22px;font-weight:700;color:#111827;margin:0 0 12px 0}
+
+/* Record cards */
+.record-card{}
+.record-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.record-head-left{display:flex;align-items:center;gap:12px}
+.record-icon-box{padding:10px;border-radius:10px}
+.record-icon-box.blue{background:#dbeafe}
+.record-icon-box.green{background:#d1fae5}
+.record-icon-box.purple{background:#ede9fe}
+.record-icon{width:24px;height:24px}
+.record-icon.blue{color:#2563eb}
+.record-icon.green{color:#16a34a}
+.record-icon.purple{color:#7c3aed}
+.record-title{margin:0 0 2px 0;color:#111827;font-size:18px;font-weight:700}
+.record-date{display:flex;align-items:center;color:#6b7280;margin:0}
+.date-icon{width:16px;height:16px;margin-right:6px;color:#6b7280}
+.record-sub{color:#6b7280;margin:0}
+.record-actions{display:flex;align-items:center;gap:8px}
+.icon-btn{padding:6px;border:none;background:transparent;color:#9ca3af;cursor:pointer}
+.icon-btn:hover{color:#4f46e5}
+.icon{width:20px;height:20px}
+
+/* Status pills */
+.pill{padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.pill-green{background:#dcfce7;color:#166534}
+.pill-yellow{background:#fef9c3;color:#854d0e}
+.pill-blue{background:#dbeafe;color:#1e40af}
+.pill-gray{background:#f3f4f6;color:#374151}
+
+/* Nutrient grid */
+.nut-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:768px){.nut-grid{grid-template-columns:repeat(6,1fr)}}
+.nut-box{border-radius:10px;text-align:center;padding:12px}
+.nut-box.soil{background:#ecfdf5}
+.nut-box.ph{background:#eff6ff}
+.nut-label{font-size:12px;font-weight:700;margin:0 0 4px 0}
+.nut-value{margin:0;font-weight:800}
+.green{color:#059669}
+.green-dark{color:#065f46}
+.blue{color:#2563eb}
+.blue-dark{color:#1e3a8a}
+
+/* nutrient level colors (bg + text combined classes) */
+.nut{padding:12px;border-radius:10px;text-align:center}
+.nut-green{background:#ecfdf5;color:#059669}
+.nut-yellow{background:#fef3c7;color:#ca8a04}
+.nut-red{background:#fee2e2;color:#b91c1c}
+.nut-gray{background:#f3f4f6;color:#374151}
+
+/* Recommendation lists */
+.rec-grid{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:768px){.rec-grid{grid-template-columns:1fr 1fr}}
+.rec-subtitle{font-weight:700;color:#111827;margin:0 0 10px 0}
+.dot-list{display:flex;flex-direction:column;gap:8px}
+.dot-row{display:flex;align-items:flex-start;gap:8px}
+.dot{width:8px;height:8px;border-radius:999px;margin-top:6px}
+.dot.green{background:#22c55e}
+.dot-text{margin:0;color:#374151}
+.pill-list{display:flex;flex-direction:column;gap:8px}
+.pill-blue{background:#eef2ff;border-radius:10px;padding:8px}
+.pill-text{margin:0;color:#1e3a8a;font-weight:600}
+
+/* Yield */
+.record-head.yield{margin-bottom:20px}
+.yield-right{text-align:right}
+.yield-number{margin:0;color:#7c3aed;font-size:28px;font-weight:800}
+.yield-label{margin:0;color:#6b7280;font-size:12px}
+.yield-grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:768px){.yield-grid{grid-template-columns:repeat(4,1fr)}}
+.yield-box{border-radius:10px;text-align:center;padding:14px}
+.yield-box.blue{background:#eff6ff}
+.yield-box.green{background:#ecfdf5}
+.yield-box.purple{background:#f5f3ff}
+.yield-box.yellow{background:#fef9c3}
+.yield-label-sm{font-size:12px;font-weight:700;margin:0 0 6px 0}
+.yield-label-sm.blue{color:#2563eb}
+.yield-label-sm.green{color:#059669}
+.yield-label-sm.purple{color:#7c3aed}
+.yield-label-sm.yellow{color:#ca8a04}
+.yield-value{margin:0;font-size:18px;font-weight:800}
+.yield-value.blue-dark{color:#1e3a8a}
+.yield-value.green-dark{color:#065f46}
+.yield-value.purple-dark{color:#6d28d9}
+.yield-value.yellow-dark{color:#854d0e}
