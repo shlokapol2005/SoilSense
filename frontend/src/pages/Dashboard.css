@@ -567,3 +567,9 @@
     font-size: 1.125rem;
   }
 }
+button {
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+  cursor: pointer;
+}

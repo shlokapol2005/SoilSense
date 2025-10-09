@@ -15,7 +15,7 @@ import {
   Leaf,
 } from "lucide-react";
 
-const Dashboard = () => {
+const Dashboard = ({ setActiveTab }) => {
   const quickActions = [
     {
       id: 1,
@@ -25,6 +25,7 @@ const Dashboard = () => {
       colorClass: "blue-gradient",
       bgColorClass: "blue-bg",
       textColorClass: "blue-text",
+      targetTab: "Soil Analysis",
     },
     {
       id: 2,
@@ -34,6 +35,7 @@ const Dashboard = () => {
       colorClass: "green-gradient",
       bgColorClass: "green-bg",
       textColorClass: "green-text",
+      targetTab: "Recommendations",
     },
     {
       id: 3,
@@ -43,6 +45,7 @@ const Dashboard = () => {
       colorClass: "cyan-gradient",
       bgColorClass: "cyan-bg",
       textColorClass: "cyan-text",
+      targetTab: "Weather",
     },
     {
       id: 4,
@@ -52,6 +55,7 @@ const Dashboard = () => {
       colorClass: "purple-gradient",
       bgColorClass: "purple-bg",
       textColorClass: "purple-text",
+      targetTab: "Calculator",
     },
   ];
 
@@ -107,7 +111,10 @@ const Dashboard = () => {
                       <p className="card-desc">{action.description}</p>
                     </div>
                     <div className="card-footer">
-                      <button className={`action-btn ${action.colorClass}`}>
+                      <button
+                        className={`action-btn ${action.colorClass}`}
+                        onClick={() => setActiveTab(action.targetTab)}
+                      >
                         <span>Get Started</span>
                         <ArrowRight className="arrow-icon" />
                       </button>
@@ -132,7 +139,10 @@ const Dashboard = () => {
                       Start by analyzing your soil to get personalized
                       recommendations for your farm.
                     </p>
-                    <button className="start-soil-btn">
+                    <button
+                      className="start-soil-btn"
+                      onClick={() => setActiveTab("Soil Analysis")}
+                    >
                       <Beaker />
                       <span>Start Soil Analysis</span>
                     </button>
@@ -194,7 +204,10 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-                <button className="view-forecast-btn">
+                <button
+                  className="view-forecast-btn"
+                  onClick={() => setActiveTab("Weather")}
+                >
                   <span>View Detailed Forecast</span>
                   <ArrowRight />
                 </button>

@@ -16,8 +16,6 @@ import "./pages/Dashboard.css";
 import "./pages/LoginPage.css";
 import "./pages/AuthPage.css";
 
-
-
 function App() {
   const [activeTab, setActiveTab] = useState("Dashboard");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -29,7 +27,9 @@ function App() {
         <>
           <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
           <main>
-            {activeTab === "Dashboard" && <Dashboard />}
+            {activeTab === "Dashboard" && (
+              <Dashboard setActiveTab={setActiveTab} />
+            )}
             {activeTab === "Soil Analysis" && <SoilAnalysis />}
             {activeTab === "Recommendations" && <Recommendations />}
             {activeTab === "Weather" && <WeatherPage />}
