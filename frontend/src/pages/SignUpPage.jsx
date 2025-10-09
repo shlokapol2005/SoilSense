@@ -1,6 +1,6 @@
-
 // src/pages/SignUpPage.jsx
 import React, { useState } from "react";
+import axios from "axios";
 import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
 
 const SignUpPage = ({ setIsLoggedIn, switchToLogin }) => {
@@ -17,7 +17,7 @@ const SignUpPage = ({ setIsLoggedIn, switchToLogin }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
@@ -25,41 +25,56 @@ const SignUpPage = ({ setIsLoggedIn, switchToLogin }) => {
       return;
     }
 
-    console.log("Sign Up Data:", formData);
-    setIsLoggedIn(true);
+    try {
+      const response = await axios.post(
+        "https://68e6ba6310e3f82fbf3d06f0.mockapi.io/api/v1/users",
+        {
+          fullName: formData.fullName,
+          email: formData.email,
+          password: formData.password,
+        }
+      );
+
+      console.log("✅ User created successfully:", response.data);
+      alert("Account created successfully!");
+      setIsLoggedIn(true);
+    } catch (error) {
+      console.error("❌ Error creating user:", error);
+      alert("Error creating account! Check console for details.");
+    }
   };
 
   return (
     <div className="auth-container">
-      {/* Left Features Section */}
       <div className="auth-left">
         <h1 className="auth-logo">🌱 SoilSense</h1>
         <h2>Smart Soil Quality Analyzer & Fertilizer Recommendation System</h2>
         <p>
-          Helping farmers make data-driven decisions for sustainable agriculture through advanced soil analysis and personalized recommendations.
+          Helping farmers make data-driven decisions for sustainable
+          agriculture through advanced soil analysis and personalized
+          recommendations.
         </p>
-
-        <div className="features">
+         <div className="features">
           <div className="feature-card">
             <h3>Soil Analysis</h3>
             <p>Upload test reports or enter soil parameters for instant analysis</p>
           </div>
           <div className="feature-card">
-            <h3>Smart Recommendations</h3>
-            <p>Get AI-powered crop and fertilizer suggestions</p>
+            <h3>Recommendations</h3>
+            <p>AI-powered crop and fertilizer suggestions</p>
           </div>
           <div className="feature-card">
             <h3>Weather Insights</h3>
-            <p>Access location-based weather data for better planning</p>
+            <p>Location-based weather for better planning</p>
           </div>
           <div className="feature-card">
             <h3>Fertilizer Calculator</h3>
-            <p>Calculate precise fertilizer quantities for your farm area</p>
+            <p>Precise fertilizer quantities for farm area</p>
           </div>
         </div>
       </div>
+     
 
-      {/* Right Sign Up Form */}
       <div className="auth-right">
         <div className="form-box">
           <h2>Create Account</h2>
@@ -134,12 +149,6 @@ const SignUpPage = ({ setIsLoggedIn, switchToLogin }) => {
               Create Account
             </button>
           </form>
-
-          <div className="divider">or continue with</div>
-          <div className="social-buttons">
-            <button className="google-btn">Google</button>
-            <button className="facebook-btn">Facebook</button>
-          </div>
         </div>
       </div>
     </div>

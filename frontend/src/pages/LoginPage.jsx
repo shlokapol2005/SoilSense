@@ -1,5 +1,6 @@
-// src/pages/LoginPage.jsx
+// src/pages/LoginPage.jsx// src/pages/LoginPage.jsx
 import React, { useState } from "react";
+import axios from "axios";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 
 const LoginPage = ({ setIsLoggedIn, switchToSignUp }) => {
@@ -8,57 +9,64 @@ const LoginPage = ({ setIsLoggedIn, switchToSignUp }) => {
   const [remember, setRemember] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Add your login logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log("Remember:", remember);
+    try {
+      const res = await axios.get("https://68e6ba6310e3f82fbf3d06f0.mockapi.io/api/v1/users");
+      const users = res.data;
 
-    // On successful login
-    setIsLoggedIn(true);
+    
+      const user = users.find(
+        (u) => u.email === email && u.password === password
+      );
+
+      if (user) {
+        alert("Login successful!");
+        setIsLoggedIn(true);
+      } else {
+        alert("Invalid email or password!");
+      }
+    } catch (err) {
+      console.error("Error fetching users:", err);
+      alert("Something went wrong. Try again!");
+    }
   };
 
   return (
-    <div className="auth-container">
-      {/* Left Features Section */}
-      <div className="auth-left">
-        <h1 className="auth-logo">🌱 SoilSense</h1>
+    <div className="login-container auth-container">
+      {/* Left side */}
+      <div className="left-section auth-left">
+        <h1 className="logo auth-logo">🌱 SoilSense</h1>
         <h2>Smart Soil Quality Analyzer & Fertilizer Recommendation System</h2>
-        <p>
-          Helping farmers make data-driven decisions for sustainable agriculture through advanced soil analysis and personalized recommendations.
-        </p>
-
+        <p>Helping farmers make data-driven decisions for sustainable agriculture.</p>
         <div className="features">
           <div className="feature-card">
             <h3>Soil Analysis</h3>
             <p>Upload test reports or enter soil parameters for instant analysis</p>
           </div>
           <div className="feature-card">
-            <h3>Smart Recommendations</h3>
-            <p>Get AI-powered crop and fertilizer suggestions</p>
+            <h3>Recommendations</h3>
+            <p>AI-powered crop and fertilizer suggestions</p>
           </div>
           <div className="feature-card">
             <h3>Weather Insights</h3>
-            <p>Access location-based weather data for better planning</p>
+            <p>Location-based weather for better planning</p>
           </div>
           <div className="feature-card">
             <h3>Fertilizer Calculator</h3>
-            <p>Calculate precise fertilizer quantities for your farm area</p>
+            <p>Precise fertilizer quantities for farm area</p>
           </div>
         </div>
       </div>
 
-      {/* Right Login Form */}
-      <div className="auth-right">
+      {/* Right side with card */}
+      <div className="right-section auth-right">
         <div className="form-box">
           <h2>Welcome Back</h2>
           <p>
-            Don't have an account?{" "}
-            <button onClick={switchToSignUp} className="switch-btn">
-              Sign up
-            </button>
+            Don’t have an account?
+            <button onClick={switchToSignUp} className="switch-btn">Sign up</button>
           </p>
 
           <form onSubmit={handleSubmit}>
@@ -88,26 +96,27 @@ const LoginPage = ({ setIsLoggedIn, switchToSignUp }) => {
                 type="button"
                 className="show-pass-btn"
                 onClick={() => setShowPassword(!showPassword)}
+                aria-label="Toggle password visibility"
               >
                 {showPassword ? <EyeOff /> : <Eye />}
               </button>
             </div>
 
-            <div className="options">
-              <label>
-                <input
-                  type="checkbox"
-                  checked={remember}
-                  onChange={(e) => setRemember(e.target.checked)}
-                />
-                Remember me
-              </label>
-              <a href="/forgot-password">Forgot password?</a>
-            </div>
+           <div className="options">
+  <label className="checkbox-row">
+    <input
+      type="checkbox"
+      checked={remember}
+      onChange={(e) => setRemember(e.target.checked)}
+    />
+    <span className="checkbox-text">Remember me</span>
+  </label>
+  {/* keep any right-side link if needed */}
+  {/* <a href="/forgot-password">Forgot password?</a> */}
+</div>
 
-            <button type="submit" className="auth-btn">
-              Sign In
-            </button>
+
+            <button type="submit" className="auth-btn">Sign In</button>
           </form>
 
           <div className="divider">or continue with</div>

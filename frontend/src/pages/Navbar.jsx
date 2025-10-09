@@ -52,7 +52,7 @@ const Navbar = ({ activeTab, setActiveTab }) => {
         <div className="navbar-right">
           <div className="user-profile-desktop">
             <div className="user-info">
-              <p className="user-name">John Farmer</p>
+              <p className="user-name"></p>
               <p className="user-role">Farmer</p>
             </div>
             <div className="user-icon">
