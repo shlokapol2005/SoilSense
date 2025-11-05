@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Target,
   Wheat,
@@ -8,47 +8,84 @@ import {
   AlertTriangle,
   Star,
   ArrowRight,
-  Leaf
+  Leaf,
+  ArrowLeft
 } from "lucide-react";
 import "./Recommendations.css";
 
-const RecommendationsPage = () => {
-  const [selectedCrop, setSelectedCrop] = useState("wheat");
+const RecommendationsPage = ({ analysisData, setActiveTab }) => {
+  const [selectedCrop, setSelectedCrop] = useState(null);
 
-  const cropRecommendations = {
-    wheat: {
-      name: "Wheat",
-      icon: Wheat,
-      suitability: 95,
-      season: "Rabi (Winter)",
-      duration: "120-150 days",
-      expectedYield: "25-30 quintals/acre",
-      waterRequirement: "Medium (450-650mm)",
-      soilType: "Loamy, Well-drained",
-      fertilizers: [
-        { name: "Urea", quantity: "130 kg/acre", timing: "Basal + Top dressing" },
-        { name: "DAP", quantity: "100 kg/acre", timing: "At sowing" },
-        { name: "MOP", quantity: "50 kg/acre", timing: "At sowing" }
-      ]
-    },
-    rice: {
-      name: "Rice",
-      icon: Leaf,
-      suitability: 88,
-      season: "Kharif (Monsoon)",
-      duration: "90-120 days",
-      expectedYield: "20-25 quintals/acre",
-      waterRequirement: "High (1200-1500mm)",
-      soilType: "Clay, Water-logged",
-      fertilizers: [
-        { name: "Urea", quantity: "120 kg/acre", timing: "Split application" },
-        { name: "SSP", quantity: "150 kg/acre", timing: "At transplanting" },
-        { name: "MOP", quantity: "40 kg/acre", timing: "At transplanting" }
-      ]
+  // Build crop recommendations from analysis data
+  const getCropRecommendations = () => {
+    if (!analysisData || !analysisData.Available_Crops) {
+      return {};
     }
+
+    const recommendations = {};
+    
+    analysisData.Available_Crops.forEach((cropName, index) => {
+      const cropKey = cropName.toLowerCase().replace(/\s+/g, '_');
+      recommendations[cropKey] = {
+        name: cropName,
+        icon: index % 2 === 0 ? Wheat : Leaf,
+        suitability: 95 - (index * 5), // Decreasing suitability
+        season: "Based on local climate",
+        duration: "Varies by variety",
+        expectedYield: "Consult local experts",
+        waterRequirement: analysisData.Average_pH > 7 ? "Medium" : "Medium-High",
+        soilType: analysisData.Soil,
+        fertilizers: analysisData.Recommended_Fertilizers.map(fert => ({
+          name: fert,
+          quantity: "",
+          timing: ""
+        })),
+        nutrients: {
+          nitrogen: analysisData.Average_Nitrogen,
+          phosphorus: analysisData.Average_Phosphorus,
+          potassium: analysisData.Average_Potassium,
+          pH: analysisData.Average_pH
+        }
+      };
+    });
+
+    return recommendations;
   };
 
+  const cropRecommendations = analysisData ? getCropRecommendations() : {};
+
+  // Set initial selected crop
+  useEffect(() => {
+    if (Object.keys(cropRecommendations).length > 0 && !selectedCrop) {
+      setSelectedCrop(Object.keys(cropRecommendations)[0]);
+    }
+  }, [cropRecommendations, selectedCrop]);
+
+  // If no data, show message
+  if (!analysisData) {
+    return (
+      <div className="recommendations-page">
+        <div className="page-container">
+          <div className="no-data-card">
+            <AlertTriangle size={48} color="#f59e0b" />
+            <h2>No Analysis Data Found</h2>
+            <p>Please complete the soil analysis first to get personalized recommendations.</p>
+            <button 
+              className="back-button"
+              onClick={() => setActiveTab && setActiveTab('Soil Analysis')}
+            >
+              <ArrowLeft size={20} />
+              Go to Soil Analysis
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const currentCrop = cropRecommendations[selectedCrop];
+  if (!currentCrop) return null;
+  
   const CropIcon = currentCrop.icon;
 
   const getSuitabilityClass = (score) => {
@@ -57,26 +94,55 @@ const RecommendationsPage = () => {
     return "suitability-low";
   };
 
+  const getStarRating = (score) => {
+    const stars = Math.round((score / 100) * 5);
+    return { filled: stars, empty: 5 - stars };
+  };
+
   return (
     <div className="recommendations-page">
       <div className="page-container">
-        {/* Plain header (no card) */}
+        {/* Header */}
         <header className="recommendations-header">
           <h1 className="recommendations-title">
             <Target className="header-icon" />
             AI-Powered Recommendations
           </h1>
           <p className="recommendations-subtitle">
-            Get personalized crop and fertilizer recommendations based on your soil analysis and local conditions
+            Personalized crop and fertilizer recommendations based on your soil analysis from {analysisData.District}
           </p>
         </header>
 
-        {/* Crop Selection card */}
+        {/* Analysis Summary Card */}
+        <section className="card analysis-summary-card">
+          <h3 className="section-title">Your Soil Analysis Summary</h3>
+          <div className="summary-grid">
+            <div className="summary-item">
+              <span className="summary-label">District</span>
+              <span className="summary-value">{analysisData.District}</span>
+            </div>
+            <div className="summary-item">
+              <span className="summary-label">Soil Type</span>
+              <span className="summary-value">{analysisData.Soil}</span>
+            </div>
+            <div className="summary-item">
+              <span className="summary-label">Temperature</span>
+              <span className="summary-value">{analysisData.Nearest_Temperature_Used}°C</span>
+            </div>
+            <div className="summary-item">
+              <span className="summary-label">pH Level</span>
+              <span className="summary-value">{analysisData.Average_pH}</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Crop Selection */}
         <section className="card crops-card">
           <h2 className="section-title">Recommended Crops for Your Soil</h2>
           <div className="crop-buttons">
             {Object.entries(cropRecommendations).map(([key, crop]) => {
               const Icon = crop.icon;
+              const rating = getStarRating(crop.suitability);
               return (
                 <button
                   key={key}
@@ -93,11 +159,12 @@ const RecommendationsPage = () => {
                         {crop.suitability}% Match
                       </span>
                       <div className="star-rating">
-                        <Star className="star-filled" size={16} />
-                        <Star className="star-filled" size={16} />
-                        <Star className="star-filled" size={16} />
-                        <Star className="star-filled" size={16} />
-                        <Star className="star-empty" size={16} />
+                        {[...Array(rating.filled)].map((_, i) => (
+                          <Star key={`filled-${i}`} className="star-filled" size={16} />
+                        ))}
+                        {[...Array(rating.empty)].map((_, i) => (
+                          <Star key={`empty-${i}`} className="star-empty" size={16} />
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -107,9 +174,9 @@ const RecommendationsPage = () => {
           </div>
         </section>
 
-        {/* Main grid */}
+        {/* Main Grid */}
         <div className="recommendations-grid">
-          {/* Left column */}
+          {/* Left Column */}
           <div className="card details-card">
             <div className="crop-basic-info">
               <div className="crop-icon-box">
@@ -117,32 +184,34 @@ const RecommendationsPage = () => {
               </div>
               <div className="crop-text-info">
                 <h2 className="crop-name-main">{currentCrop.name}</h2>
-                <p className="crop-recommended">Highly Recommended for Your Soil</p>
+                <p className="crop-recommended">Recommended Based on Your Soil Analysis</p>
               </div>
             </div>
 
+            {/* Soil Nutrient Parameters */}
             <div className="crop-parameters">
               <div className="param-box">
-                <span className="param-label">Season</span>
-                <span className="param-value">{currentCrop.season}</span>
+                <span className="param-label">Nitrogen (N)</span>
+                <span className="param-value">{currentCrop.nutrients.nitrogen}</span>
               </div>
               <div className="param-box">
-                <span className="param-label">Duration</span>
-                <span className="param-value">{currentCrop.duration}</span>
+                <span className="param-label">Phosphorus (P)</span>
+                <span className="param-value">{currentCrop.nutrients.phosphorus}</span>
               </div>
               <div className="param-box">
-                <span className="param-label">Expected Yield</span>
-                <span className="param-value">{currentCrop.expectedYield}</span>
+                <span className="param-label">Potassium (K)</span>
+                <span className="param-value">{currentCrop.nutrients.potassium}</span>
               </div>
               <div className="param-box">
-                <span className="param-label">Water Requirement</span>
-                <span className="param-value">{currentCrop.waterRequirement}</span>
+                <span className="param-label">pH Level</span>
+                <span className="param-value">{currentCrop.nutrients.pH}</span>
               </div>
             </div>
 
+            {/* Fertilizer Section */}
             <div className="fertilizer-section">
               <h3 className="section-subtitle">
-                <Sprout className="section-icon" /> Fertilizer Recommendations
+                <Sprout className="section-icon" /> Recommended Fertilizers
               </h3>
 
               {currentCrop.fertilizers.map((fertilizer, idx) => (
@@ -153,7 +222,6 @@ const RecommendationsPage = () => {
                   </div>
                   <div className="fertilizer-quantity">
                     <p className="quantity">{fertilizer.quantity}</p>
-                    <p className="per-acre">per acre</p>
                   </div>
                 </div>
               ))}
@@ -161,7 +229,8 @@ const RecommendationsPage = () => {
               <div className="important-note">
                 <AlertTriangle className="note-icon" />
                 <p>
-                  These recommendations are based on your soil analysis. Always consult with local agricultural experts and consider current market prices before making final decisions.
+                  These recommendations are based on your soil analysis from {analysisData.District} district with {analysisData.Soil} soil. 
+                  Analysis used {analysisData.Number_of_Records} historical records. Always consult with local agricultural experts before making final decisions.
                 </p>
               </div>
             </div>
@@ -171,9 +240,9 @@ const RecommendationsPage = () => {
           <aside className="recommendations-sidebar">
             <div className="card sidebar-card quick-actions">
               <h3 className="sidebar-title">Quick Actions</h3>
-              <button className="action-button">
+              <button className="action-button" onClick={() => setActiveTab && setActiveTab('Soil Analysis')}>
                 <Target className="action-icon" />
-                Calculate Fertilizer Quantity
+                New Soil Analysis
               </button>
               <button className="action-button">
                 <Sun className="action-icon" />
@@ -189,23 +258,31 @@ const RecommendationsPage = () => {
               <h3 className="sidebar-title">Soil Compatibility</h3>
               <div className="compatibility-item">
                 <span>pH Level</span>
-                <span className="compatibility-value">Excellent</span>
+                <span className="compatibility-value">
+                  {analysisData.Average_pH >= 6.5 && analysisData.Average_pH <= 7.5 ? "Excellent" : "Good"}
+                </span>
               </div>
               <div className="compatibility-item">
-                <span>Drainage</span>
-                <span className="compatibility-value">Good</span>
+                <span>Nitrogen</span>
+                <span className="compatibility-value">
+                  {analysisData.Average_Nitrogen > 250 ? "Good" : "Fair"}
+                </span>
               </div>
               <div className="compatibility-item">
-                <span>Organic Matter</span>
-                <span className="compatibility-value">Fair</span>
+                <span>Phosphorus</span>
+                <span className="compatibility-value">
+                  {analysisData.Average_Phosphorus > 40 ? "Good" : "Fair"}
+                </span>
               </div>
               <div className="compatibility-item">
-                <span>Nutrient Level</span>
-                <span className="compatibility-value">Good</span>
+                <span>Potassium</span>
+                <span className="compatibility-value">
+                  {analysisData.Average_Potassium > 300 ? "Good" : "Fair"}
+                </span>
               </div>
 
               <div className="compatibility-note">
-                Your soil is well-suited for {currentCrop.name} cultivation with minimal amendments needed.
+                Your {analysisData.Soil} soil from {analysisData.District} is well-suited for {currentCrop.name} cultivation.
               </div>
             </div>
 

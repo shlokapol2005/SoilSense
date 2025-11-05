@@ -234,7 +234,7 @@ const Dashboard = ({ setActiveTab }) => {
         </div>
       </div>
 
-      {/* Floating Chat Button */}
+      {}
       <div className="chat-btn-container">
         <button className="chat-btn">
           <MessageCircle />

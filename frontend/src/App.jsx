@@ -1,4 +1,4 @@
-// src/App.jsx
+// src/App.jsx// src/App.jsx
 import React, { useState } from "react";
 import Navbar from "./pages/Navbar";
 import Dashboard from "./pages/Dashboard";
@@ -20,6 +20,7 @@ function App() {
   const [activeTab, setActiveTab] = useState("Dashboard");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
+  const [analysisData, setAnalysisData] = useState(null); // Store analysis results
 
   return (
     <div>
@@ -30,8 +31,15 @@ function App() {
             {activeTab === "Dashboard" && (
               <Dashboard setActiveTab={setActiveTab} />
             )}
-            {activeTab === "Soil Analysis" && <SoilAnalysis />}
-            {activeTab === "Recommendations" && <Recommendations />}
+            {activeTab === "Soil Analysis" && (
+              <SoilAnalysis 
+                setActiveTab={setActiveTab}
+                setAnalysisData={setAnalysisData}
+              />
+            )}
+            {activeTab === "Recommendations" && (
+              <Recommendations analysisData={analysisData} setActiveTab={setActiveTab} />
+            )}
             {activeTab === "Weather" && <WeatherPage />}
             {activeTab === "Calculator" && <CalculatorPage />}
             {activeTab === "History" && <HistoryPage />}
