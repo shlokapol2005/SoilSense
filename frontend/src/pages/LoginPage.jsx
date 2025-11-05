@@ -13,7 +13,7 @@ const LoginPage = ({ setIsLoggedIn, switchToSignUp }) => {
     e.preventDefault();
 
     try {
-      const res = await axios.get("https://68e6ba6310e3f82fbf3d06f0.mockapi.io/api/v1/users");
+      const res = await axios.get("https://6908dc522d902d0651b1f4a6.mockapi.io/users");
       const users = res.data;
 
     
@@ -35,6 +35,7 @@ const LoginPage = ({ setIsLoggedIn, switchToSignUp }) => {
 
   return (
     <div className="login-container auth-container">
+
       {/* Left side */}
       <div className="left-section auth-left">
         <h1 className="logo auth-logo">🌱 SoilSense</h1>
@@ -60,7 +61,7 @@ const LoginPage = ({ setIsLoggedIn, switchToSignUp }) => {
         </div>
       </div>
 
-      {/* Right side with card */}
+      {/* Right side  */}
       <div className="right-section auth-right">
         <div className="form-box">
           <h2>Welcome Back</h2>
@@ -111,8 +112,8 @@ const LoginPage = ({ setIsLoggedIn, switchToSignUp }) => {
     />
     <span className="checkbox-text">Remember me</span>
   </label>
-  {/* keep any right-side link if needed */}
-  {/* <a href="/forgot-password">Forgot password?</a> */}
+  {}
+  {}
 </div>
 
 
