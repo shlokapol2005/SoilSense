@@ -9,17 +9,19 @@ import CalculatorPage from "./pages/CalculatorPage";
 import HistoryPage from "./pages/HistoryPage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
+import WelcomeScreen from "./pages/WelcomeScreen";
 
 // CSS imports
 import "./pages/Navbar.css";
 import "./pages/Dashboard.css";
 import "./pages/LoginPage.css";
 import "./pages/AuthPage.css";
+import "./pages/WelcomeScreen.css";
 
 function App() {
   const [activeTab, setActiveTab] = useState("Dashboard");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
+  const [screen, setScreen] = useState("welcome"); // welcome | login | signup
 
   return (
     <div>
@@ -37,15 +39,20 @@ function App() {
             {activeTab === "History" && <HistoryPage />}
           </main>
         </>
-      ) : isLogin ? (
+      ) : screen === "welcome" ? (
+        <WelcomeScreen
+          goToLogin={() => setScreen("login")}
+          goToSignup={() => setScreen("signup")}
+        />
+      ) : screen === "login" ? (
         <LoginPage
           setIsLoggedIn={setIsLoggedIn}
-          switchToSignUp={() => setIsLogin(false)}
+          switchToSignUp={() => setScreen("signup")}
         />
       ) : (
         <SignUpPage
           setIsLoggedIn={setIsLoggedIn}
-          switchToLogin={() => setIsLogin(true)}
+          switchToLogin={() => setScreen("login")}
         />
       )}
     </div>

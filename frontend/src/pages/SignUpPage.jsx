@@ -27,7 +27,7 @@ const SignUpPage = ({ setIsLoggedIn, switchToLogin }) => {
 
     try {
       const response = await axios.post(
-        "https://6908dc522d902d0651b1f4a6.mockapi.io/api/v1/users",
+        "https://6908dc522d902d0651b1f4a6.mockapi.io/users",
         {
           fullName: formData.fullName,
           email: formData.email,
@@ -94,7 +94,7 @@ const SignUpPage = ({ setIsLoggedIn, switchToLogin }) => {
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleInputChange}
-                placeholder="John Doe"
+                placeholder="Your Name"
                 required
               />
             </div>
