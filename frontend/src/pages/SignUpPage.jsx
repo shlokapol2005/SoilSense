@@ -1,3 +1,4 @@
+
 // src/pages/SignUpPage.jsx
 import React, { useState } from "react";
 import axios from "axios";
@@ -11,6 +12,7 @@ const SignUpPage = ({ setIsLoggedIn, switchToLogin }) => {
     confirmPassword: "",
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -25,9 +27,15 @@ const SignUpPage = ({ setIsLoggedIn, switchToLogin }) => {
       return;
     }
 
+    if (formData.password.length < 6) {
+      alert("Password must be at least 6 characters long!");
+      return;
+    }
+
+    setLoading(true);
+
     try {
-      const response = await axios.post(
-        "https://6908dc522d902d0651b1f4a6.mockapi.io/users",
+      const response =  await axios.post("http://localhost:5001/api/auth/signup",
         {
           fullName: formData.fullName,
           email: formData.email,
@@ -35,12 +43,32 @@ const SignUpPage = ({ setIsLoggedIn, switchToLogin }) => {
         }
       );
 
-      console.log("✅ User created successfully:", response.data);
-      alert("Account created successfully!");
-      setIsLoggedIn(true);
+      if (response.data.success) {
+        console.log("✅ User created successfully:", response.data);
+        alert(response.data.message);
+        // Store user info
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        setIsLoggedIn(true);
+      }
     } catch (error) {
       console.error("❌ Error creating user:", error);
-      alert("Error creating account! Check console for details.");
+      
+      
+      if (error.response) {
+        // Server responded with error
+        console.error("Server Error:", error.response.data);
+        alert(error.response.data.message || "Server error!");
+      } else if (error.request) {
+        // Request made but no response
+        console.error("No response from server. Is backend running?");
+        alert("Cannot connect to server! Make sure backend is running on http://localhost:5000");
+      } else {
+       
+        console.error("Error:", error.message);
+        alert("Error creating account!");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,7 +82,7 @@ const SignUpPage = ({ setIsLoggedIn, switchToLogin }) => {
           agriculture through advanced soil analysis and personalized
           recommendations.
         </p>
-         <div className="features">
+        <div className="features">
           <div className="feature-card">
             <h3>Soil Analysis</h3>
             <p>Upload test reports or enter soil parameters for instant analysis</p>
@@ -73,7 +101,6 @@ const SignUpPage = ({ setIsLoggedIn, switchToLogin }) => {
           </div>
         </div>
       </div>
-     
 
       <div className="auth-right">
         <div className="form-box">
@@ -122,6 +149,7 @@ const SignUpPage = ({ setIsLoggedIn, switchToLogin }) => {
                 onChange={handleInputChange}
                 placeholder="••••••••"
                 required
+                minLength={6}
               />
               <button
                 type="button"
@@ -145,8 +173,8 @@ const SignUpPage = ({ setIsLoggedIn, switchToLogin }) => {
               />
             </div>
 
-            <button type="submit" className="auth-btn">
-              Create Account
+            <button type="submit" className="auth-btn" disabled={loading}>
+              {loading ? "Creating Account..." : "Create Account"}
             </button>
           </form>
         </div>

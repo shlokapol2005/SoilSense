@@ -24,7 +24,7 @@ const SoilAnalysis = ({ setActiveTab, setAnalysisData }) => {
   const [loading, setLoading] = useState(false);
 
   const districts = ["Ahmednagar", "Akola", "Amravati", "Aurangabad", "Beed", "Bhandara", "Buldhana", "Chandrapur", "Dhule", "Gadchiroli", "Gondia", "Hingoli", "Jalgaon", "Jalna", "Kolhapur", "Latur", "Mumbai_City", "Mumbai_Suburban", "Nagpur", "Nanded", "Nandurbar", "Nashik", "Osmanabad", "Palghar", "Parbhani", "Pune", "Raigad", "Ratnagiri", "Sangli", "Satara", "Sindhudurg", "Solapur", "Thane", "Wardha", "Washim", "Yavatmal"];
-  const soilColors = ["Black", "Red", "Red ", "Medium Brown", "Dark Brown", "Light Brown", "Grey", "Brown", "Reddish Brown"];
+  const soilColors = ["Black", "Red", "Medium Brown", "Dark Brown", "Light Brown", "Grey", "Brown", "Reddish Brown"];
 
   const handleManualSubmit = async (e) => {
     e.preventDefault();
@@ -50,9 +50,11 @@ const SoilAnalysis = ({ setActiveTab, setAnalysisData }) => {
 
       const data = await res.json();
       
+      console.log("API Response:", data); 
+      
       if (res.ok) {
         setAnalysisResult(data);
-        // Store data in App state
+     
         if (setAnalysisData) {
           setAnalysisData(data);
         }
@@ -209,15 +211,18 @@ const SoilAnalysis = ({ setActiveTab, setAnalysisData }) => {
               </div>
             </div>
 
-            {/* Data Summary */}
+               {/* Data Summary - FIXED */}
             <div className="results-section">
               <h4 className="section-title">
                 <BarChart3 size={18} style={{ display: 'inline', marginRight: '8px' }} />
                 Data Summary
               </h4>
-              <p className="info-text">{analysisResult.Summary}</p>
               <p className="info-text">
-                <strong>Records analyzed:</strong> {analysisResult.Number_of_Records}
+                Found {analysisResult.Records_Found} matching records for {analysisResult.District} district 
+                with {analysisResult.Soil} soil at {analysisResult.Nearest_Temperature_Used}°C
+              </p>
+              <p className="info-text">
+                <strong>Records analyzed:</strong> {analysisResult.Records_Found}
               </p>
             </div>
 

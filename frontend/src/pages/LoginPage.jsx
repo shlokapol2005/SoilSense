@@ -1,4 +1,5 @@
-// src/pages/LoginPage.jsx// src/pages/LoginPage.jsx
+// src/pages/LoginPage.jsx
+// src/pages/LoginPage.jsx
 import React, { useState } from "react";
 import axios from "axios";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
@@ -8,34 +9,35 @@ const LoginPage = ({ setIsLoggedIn, switchToSignUp }) => {
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
-      const res = await axios.get("https://6908dc522d902d0651b1f4a6.mockapi.io/users");
-      const users = res.data;
+      const res = await axios.post("http://localhost:5001/api/auth/login", {
+        email,
+        password,
+      });
 
-    
-      const user = users.find(
-        (u) => u.email === email && u.password === password
-      );
-
-      if (user) {
-        alert("Login successful!");
+      if (res.data.success) {
+        alert(res.data.message);
+        
+        localStorage.setItem('user', JSON.stringify(res.data.user));
         setIsLoggedIn(true);
-      } else {
-        alert("Invalid email or password!");
       }
     } catch (err) {
-      console.error("Error fetching users:", err);
-      alert("Something went wrong. Try again!");
+      console.error("Login error:", err);
+      const errorMessage = err.response?.data?.message || "Something went wrong. Try again!";
+      alert(errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="login-container auth-container">
-
       {/* Left side */}
       <div className="left-section auth-left">
         <h1 className="logo auth-logo">🌱 SoilSense</h1>
@@ -61,12 +63,12 @@ const LoginPage = ({ setIsLoggedIn, switchToSignUp }) => {
         </div>
       </div>
 
-      {/* Right side  */}
+      {/* Right side */}
       <div className="right-section auth-right">
         <div className="form-box">
           <h2>Welcome Back</h2>
           <p>
-            Don’t have an account?
+            Don't have an account?
             <button onClick={switchToSignUp} className="switch-btn">Sign up</button>
           </p>
 
@@ -103,27 +105,25 @@ const LoginPage = ({ setIsLoggedIn, switchToSignUp }) => {
               </button>
             </div>
 
-           <div className="options">
-  <label className="checkbox-row">
-    <input
-      type="checkbox"
-      checked={remember}
-      onChange={(e) => setRemember(e.target.checked)}
-    />
-    <span className="checkbox-text">Remember me</span>
-  </label>
-  {}
-  {}
-</div>
+            <div className="options">
+              <label className="checkbox-row">
+                <input
+                  type="checkbox"
+                  checked={remember}
+                  onChange={(e) => setRemember(e.target.checked)}
+                />
+                <span className="checkbox-text">Remember me</span>
+              </label>
+            </div>
 
-
-            <button type="submit" className="auth-btn">Sign In</button>
+            <button type="submit" className="auth-btn" disabled={loading}>
+              {loading ? "Signing In..." : "Sign In"}
+            </button>
           </form>
 
-          <div className="divider">or continue with</div>
+          <div className="divider"></div>
           <div className="social-buttons">
-            <button className="google-btn">Google</button>
-            <button className="facebook-btn">Facebook</button>
+            
           </div>
         </div>
       </div>

@@ -16,16 +16,36 @@ import "./Recommendations.css";
 const RecommendationsPage = ({ analysisData, setActiveTab }) => {
   const [selectedCrop, setSelectedCrop] = useState(null);
 
+  // Debug: Log the received data
+  useEffect(() => {
+    console.log("Recommendations - analysisData:", analysisData);
+  }, [analysisData]);
+
   // Build crop recommendations from analysis data
   const getCropRecommendations = () => {
-    if (!analysisData || !analysisData.Available_Crops) {
+    if (!analysisData) {
+      console.log("No analysisData");
       return {};
     }
+    
+    if (!analysisData.Available_Crops) {
+      console.log("No Available_Crops in analysisData");
+      return {};
+    }
+
+    console.log("Building recommendations for crops:", analysisData.Available_Crops);
 
     const recommendations = {};
     
     analysisData.Available_Crops.forEach((cropName, index) => {
       const cropKey = cropName.toLowerCase().replace(/\s+/g, '_');
+      
+      // Get crop-specific fertilizers
+      const cropFertilizers = (analysisData.Crops_With_Fertilizers && 
+                               analysisData.Crops_With_Fertilizers[cropName]) || [];
+      
+      console.log(`Crop: ${cropName}, Fertilizers:`, cropFertilizers);
+      
       recommendations[cropKey] = {
         name: cropName,
         icon: index % 2 === 0 ? Wheat : Leaf,
@@ -35,7 +55,7 @@ const RecommendationsPage = ({ analysisData, setActiveTab }) => {
         expectedYield: "Consult local experts",
         waterRequirement: analysisData.Average_pH > 7 ? "Medium" : "Medium-High",
         soilType: analysisData.Soil,
-        fertilizers: analysisData.Recommended_Fertilizers.map(fert => ({
+        fertilizers: cropFertilizers.map(fert => ({
           name: fert,
           quantity: "",
           timing: ""
@@ -49,6 +69,7 @@ const RecommendationsPage = ({ analysisData, setActiveTab }) => {
       };
     });
 
+    console.log("Final recommendations:", recommendations);
     return recommendations;
   };
 
@@ -84,7 +105,27 @@ const RecommendationsPage = ({ analysisData, setActiveTab }) => {
   }
 
   const currentCrop = cropRecommendations[selectedCrop];
-  if (!currentCrop) return null;
+  
+  // If no current crop, show loading or error
+  if (Object.keys(cropRecommendations).length > 0 && !currentCrop) {
+    console.log("Waiting for crop selection...");
+    return (
+      <div className="recommendations-page">
+        <div className="page-container">
+          <div className="loading-state">
+            <p>Loading recommendations...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
+  if (!currentCrop) {
+    console.log("No current crop selected");
+    return null;
+  }
+  
+  console.log("Rendering crop:", currentCrop);
   
   const CropIcon = currentCrop.icon;
 
@@ -211,25 +252,31 @@ const RecommendationsPage = ({ analysisData, setActiveTab }) => {
             {/* Fertilizer Section */}
             <div className="fertilizer-section">
               <h3 className="section-subtitle">
-                <Sprout className="section-icon" /> Recommended Fertilizers
+                <Sprout className="section-icon" /> Recommended Fertilizers for {currentCrop.name}
               </h3>
 
-              {currentCrop.fertilizers.map((fertilizer, idx) => (
-                <div key={idx} className="fertilizer-card">
-                  <div className="fertilizer-info">
-                    <h4 className="fertilizer-name">{fertilizer.name}</h4>
-                    <p className="fertilizer-timing">{fertilizer.timing}</p>
+              {currentCrop.fertilizers.length > 0 ? (
+                currentCrop.fertilizers.map((fertilizer, idx) => (
+                  <div key={idx} className="fertilizer-card">
+                    <div className="fertilizer-info">
+                      <h4 className="fertilizer-name">{fertilizer.name}</h4>
+                      <p className="fertilizer-timing">{fertilizer.timing}</p>
+                    </div>
+                    <div className="fertilizer-quantity">
+                      <p className="quantity">{fertilizer.quantity}</p>
+                    </div>
                   </div>
-                  <div className="fertilizer-quantity">
-                    <p className="quantity">{fertilizer.quantity}</p>
-                  </div>
+                ))
+              ) : (
+                <div className="no-fertilizers">
+                  <p>No specific fertilizer data available for this crop in your region.</p>
                 </div>
-              ))}
+              )}
 
               <div className="important-note">
                 <AlertTriangle className="note-icon" />
                 <p>
-                  These recommendations are based on your soil analysis from {analysisData.District} district with {analysisData.Soil} soil. 
+                  These fertilizer recommendations are specifically for {currentCrop.name} cultivation in {analysisData.District} district with {analysisData.Soil} soil. 
                   Analysis used {analysisData.Number_of_Records} historical records. Always consult with local agricultural experts before making final decisions.
                 </p>
               </div>
@@ -286,14 +333,7 @@ const RecommendationsPage = ({ analysisData, setActiveTab }) => {
               </div>
             </div>
 
-            <div className="expert-consultation">
-              <h3 className="sidebar-title">Need Expert Advice?</h3>
-              <p>Connect with agricultural experts for personalized guidance on your farming decisions.</p>
-              <button className="consult-button">
-                <ArrowRight className="action-icon" />
-                Consult Expert
-              </button>
-            </div>
+            
           </aside>
         </div>
       </div>

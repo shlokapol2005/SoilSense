@@ -4,9 +4,7 @@ import {
   Sprout,
   Target,
   TrendingUp,
-  DollarSign,
   BarChart3,
-  Leaf,
   Package,
   AlertCircle,
   CheckCircle,
@@ -17,7 +15,6 @@ const CalculatorPage = () => {
   const [farmArea, setFarmArea] = useState("");
   const [areaUnit, setAreaUnit] = useState("acres");
   const [selectedCrop, setSelectedCrop] = useState("wheat");
-  const [soilType, setSoilType] = useState("loamy");
   const [targetYield, setTargetYield] = useState("");
   const [results, setResults] = useState(null);
 
@@ -138,21 +135,6 @@ const CalculatorPage = () => {
                   </select>
                 </div>
 
-                {/* Soil Type */}
-                <div className="form-field">
-                  <label className="field-label">Soil Type</label>
-                  <select
-                    value={soilType}
-                    onChange={(e) => setSoilType(e.target.value)}
-                    className="select full"
-                  >
-                    <option value="sandy">Sandy Soil</option>
-                    <option value="loamy">Loamy Soil</option>
-                    <option value="clay">Clay Soil</option>
-                    <option value="silt">Silt Soil</option>
-                  </select>
-                </div>
-
                 {/* Target Yield */}
                 <div className="form-field">
                   <label className="field-label">Target Yield (quintals/acre) - Optional</label>
@@ -237,10 +219,10 @@ const CalculatorPage = () => {
 
           {/* Sidebar */}
           <div className="calc-sidebar">
-            {/* Tips */}
+            {/* Tips remain unchanged */}
             <div className="card tips-card">
               <h3 className="side-card-title">
-                <Leaf className="side-card-icon green" />
+                <Sprout className="side-card-icon green" />
                 Fertilizer Tips
               </h3>
 
@@ -275,34 +257,26 @@ const CalculatorPage = () => {
               </div>
             </div>
 
-            {/* Prices */}
-            <div className="card prices-card">
-              <h3 className="side-card-title">
-                <TrendingUp className="side-card-icon blue" />
-                Current Prices
-              </h3>
+            {/* Recommended Fertilizers Sidebar */}
+            {results && (
+              <div className="card prices-card">
+                <h3 className="side-card-title">
+                  <TrendingUp className="side-card-icon blue" />
+                  Recommended Fertilizers
+                </h3>
 
-              <div className="price-row">
-                <span className="price-name">Urea (50kg)</span>
-                <span className="price-value">₹325</span>
-              </div>
-              <div className="price-row">
-                <span className="price-name">DAP (50kg)</span>
-                <span className="price-value">₹1,350</span>
-              </div>
-              <div className="price-row">
-                <span className="price-name">MOP (50kg)</span>
-                <span className="price-value">₹850</span>
-              </div>
-              <div className="price-row">
-                <span className="price-name">SSP (50kg)</span>
-                <span className="price-value">₹400</span>
-              </div>
+                {Object.entries(results.fertilizers).map(([key, d]) => (
+                  <div className="price-row" key={key}>
+                    <span className="price-name">{getFertilizerName(key)} (50kg)</span>
+                    <span className="price-value">₹{d.cost}</span>
+                  </div>
+                ))}
 
-              <p className="price-note">*Prices may vary by location and dealer. Last updated: Today</p>
-            </div>
+                <p className="price-note">*Total fertilizer cost for your farm based on area and crop.</p>
+              </div>
+            )}
 
-            {/* Organic block */}
+            {/* Organic block remains unchanged */}
             <div className="organic-card">
               <h3 className="organic-title">Organic Alternatives</h3>
               <p className="organic-text">
@@ -321,3 +295,4 @@ const CalculatorPage = () => {
 };
 
 export default CalculatorPage;
+
