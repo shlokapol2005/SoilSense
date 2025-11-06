@@ -12,12 +12,13 @@ Absence of localized, data-backed recommendations.
 SoilSense bridges this gap by offering smart soil analysis using ML, personalized fertilizer suggestions, and weather-based insights.
 
 👩‍💻 **Tech Stack**
+
 🧠**Machine Learning**
-Python, pandas, numpy, scikit-learn, joblib
+Python, pandas, numpy, scikit-learn, joblib - Random Forest Algorithm
 
 🌐 **Backend**
 Flask (Python REST API)
-MongoDB for storing historical results
+MongoDB Compass for storing historical results
 
 💻 **Frontend**
 HTML, CSS, JavaScript
