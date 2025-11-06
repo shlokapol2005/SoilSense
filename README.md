@@ -12,17 +12,45 @@ Absence of localized, data-backed recommendations.
 SoilSense bridges this gap by offering smart soil analysis using ML, personalized fertilizer suggestions, and weather-based insights.
 
 👩‍💻 **Tech Stack**
+🧠 **Machine Learning**
 
-🧠**Machine Learning**
-Python, pandas, numpy, scikit-learn, joblib - Random Forest Algorithm
+Python, pandas, numpy, scikit-learn
+Algorithm: Random Forest Classifier
+Purpose: Predict suitable crops and recommend fertilizers based on soil properties and temperature.
 
 🌐 **Backend**
+
 Flask (Python REST API)
-MongoDB Compass for storing historical results
+MongoDB Compass (Local Database) for storing historical predictions
+pymongo for database operations
 
 💻 **Frontend**
+
+React.js + Vite (for UI rendering)
 HTML, CSS, JavaScript
 UI/UX designed in Figma
 
-🌦️ **APIs**
-OpenWeatherMap API
+🌦️ **External API**
+
+OpenWeatherMap API — fetches real-time temperature and weather data for the user’s region.
+
+**Data Flow**
+🔹 **Prediction Flow**
+
+User enters input (District, Soil Type, Temperature).
+
+Flask /predict API:
+
+Predicts suitable crops & fertilizers using the ML model.
+
+Stores input + output in MongoDB.
+
+Returns prediction result to frontend.
+
+🔹 **History Flow**
+
+When user visits the History Page, React calls /history.
+
+Flask retrieves all stored predictions from MongoDB.
+
+React displays results dynamically as history cards.
