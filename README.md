@@ -23,5 +23,6 @@ MongoDB Compass for storing historical results
 💻 **Frontend**
 HTML, CSS, JavaScript
 UI/UX designed in Figma
+
 🌦️ **APIs**
 OpenWeatherMap API
