@@ -16,7 +16,7 @@ SoilSense bridges this gap by offering smart soil analysis using ML, personalize
 
 Python, pandas, numpy, scikit-learn
 
-Algorithm: Random Forest Classifier
+Algorithm used: Random Forest Classifier
 
 Purpose: Predict suitable crops and recommend fertilizers based on soil properties and temperature.
 
