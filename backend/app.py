@@ -23,7 +23,7 @@ label_encoders = {}
 df = None
 
 
-def load_and_train_model():
+def initialize_ml_model():
     """Load dataset and train Random Forest model"""
     global model, label_encoders, df
 
@@ -51,7 +51,7 @@ def load_and_train_model():
     print(f"🌾 Unique crops: {df['Crop'].nunique()}")
 
 
-@app.route('/predict', methods=['POST'])
+@app.route('/api/v1/predict', methods=['POST'])
 def predict():
     try:
         data = request.json
@@ -151,4 +151,6 @@ def get_soil_colors():
 
 if __name__ == '__main__':
     load_and_train_model()
-    app.run(debug=True, host='127.0.0.1', port=5000)
+    app.run(debug=False, host='127.0.0.1', port=5000)
+
+#testing the bot
