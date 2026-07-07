@@ -23,7 +23,7 @@ label_encoders = {}
 df = None
 
 
-def load_and_train_model():
+def initialize_ml_model():
     """Load dataset and train Random Forest model"""
     global model, label_encoders, df
 
@@ -51,7 +51,7 @@ def load_and_train_model():
     print(f"🌾 Unique crops: {df['Crop'].nunique()}")
 
 
-@app.route('/predict', methods=['POST'])
+@app.route('/api/v1/predict', methods=['POST'])
 def predict():
     try:
         data = request.json
