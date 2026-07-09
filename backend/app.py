@@ -12,7 +12,7 @@ app = Flask(__name__)
 CORS(app)
 
 # ===== MongoDB Setup =====
-
+#testing
 client = MongoClient("mongodb://127.0.0.1:27017/")
 db = client["soilsense_db"]
 history_collection = db["prediction_history"]
