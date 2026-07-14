@@ -9,7 +9,7 @@ Farmers often face challenges such as:
 Lack of awareness about their soil’s nutrient composition (NPK & pH).
 Incorrect fertilizer usage leading to soil degradation.
 Absence of localized, data-backed recommendations.
-SoilSense bridges this gap by offering smart soil analysis using ML, personalized fertilizer suggestions, and weather-based insights.
+SoilSense bridges this gap by offering smart soil analysis using ML, personalized fertilizer suggestions, and weather-based insight.
 
 # **Tech Stack**
 🧠 **Machine Learning**
